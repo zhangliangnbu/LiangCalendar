@@ -1,4 +1,8 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+version '1.0.0'
 
 android {
     compileSdkVersion 26
@@ -32,5 +36,76 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
 }
+
+def siteUrl = 'https://github.com/zhangliangnbu/LiangCalendar'      // 项目的主页。可以没有
+def gitUrl = 'git@github.com:zhangliangnbu/LiangCalendar.git'   // Git仓库的url。可以没有
+group = "com.liang.liangcalendar" // Maven Group ID for the artifact，一般填你唯一的包名。其他项目添加此依赖时需要。
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                // Add your description here
+                description 'a simple horizontal calendar view for android'
+                name 'Android Simple Horizontal Calendar View'  //项目描述
+                url siteUrl
+                // Set your license
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer { // 开发者信息
+                        id 'xxxxxxx'
+                        name 'ZhangLiang'
+                        email 'zhangliangnbu@gmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadoc(type: Javadoc) {
+    options.encoding = 'UTF-8'
+    source = 'src/main/java'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+Properties properties = new Properties()
+// 加载本地配置
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintray.user") // local.properties里设置
+    key = properties.getProperty("bintray.apikey") // local.properties里设置
+    configurations = ['archives']
+    pkg {
+        repo = "android"  // 仓库名
+        name = "liang-calendar"  // 项目名(仓库里包的名称)
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}
+
+// 使用 ./gradlew bintrayUpload
