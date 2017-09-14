@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_day"
+        android:text="14"
+        android:textColor="#ff0000"
+        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_week"
+        android:text="周一"
+        android:textColor="#ff0000"
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/tv_day"
+        app:layout_constraintBottom_toBottomOf="@id/tv_day"/>
+
+    <TextView
+        android:id="@+id/tv_month"
+        android:text="八月"
+        android:textColor="#ff0000"
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/tv_day"
+        app:layout_constraintRight_toRightOf="@id/tv_week"
+        app:layout_constraintTop_toBottomOf="@id/tv_day"
+        android:layout_marginTop="4dp"/>
+
+
+</android.support.constraint.ConstraintLayout>
